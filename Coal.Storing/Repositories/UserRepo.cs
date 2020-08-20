@@ -13,17 +13,14 @@ namespace Coal.Storing.Repositories
       _db = dbContext;
     }
 
-    public void Create(string name)
+    public User Create(string name)
     {
-      _db.Users.Add(new User(){Name = name});
+      User user = new User(){ Name = name };
+      user.Library = new Library(){ User = user };
+      _db.Users.Add(user);
       _db.SaveChanges();
+      return user;
     }
-
-    // public User Create(string name)
-    // {
-    //   _db.Users.Add(new User(){Name = name});
-    //   _db.SaveChanges();
-    // }
 
     public User Read(string name)
     {
