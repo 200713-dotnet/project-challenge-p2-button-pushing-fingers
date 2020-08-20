@@ -8,5 +8,25 @@ namespace Coal.Storing.Repositories
     {
       _db = dbContext;
     }
+
+    public void Create()
+    {
+
+    }
+
+    public void Read()
+    {
+
+    }
+
+    public void Update()
+    {
+
+    }
+
+    public void Delete()
+    {
+      
+    }
   }
 }
