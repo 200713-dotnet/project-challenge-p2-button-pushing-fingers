@@ -47,7 +47,7 @@ namespace Coal.Domain {
                     app.UseDeveloperExceptionPage ();
                }
 
-               app.UseHttpsRedirection ();
+               //app.UseHttpsRedirection ();
                
                app.UseCors(); 
 
