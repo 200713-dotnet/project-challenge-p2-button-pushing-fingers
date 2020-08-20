@@ -9,7 +9,7 @@ using Coal.Client.Models;
 
 namespace Coal.Client.Controllers
 {
-    public class HomeController : Controller
+    public class UserController : Controller
     {
     }
 }
