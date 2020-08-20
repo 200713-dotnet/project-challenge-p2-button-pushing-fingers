@@ -9,4 +9,7 @@ using Coal.Client.Models;
 
 namespace Coal.Client.Controllers
 {
+    public class StoreController : Controller
+    {
+    }
 }
