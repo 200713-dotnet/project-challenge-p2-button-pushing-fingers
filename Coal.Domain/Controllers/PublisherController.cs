@@ -28,11 +28,11 @@ namespace Coal.Domain.Controllers
           [HttpGet("{name}")]
           public ObjectResult Get(string name)
           {
-               /*_pub = */pr.Read();
+               /*_pub = */pr.ReadGame(name);
                
                if(_pub == null)
                {
-                    pr.Create();
+                    pr.Create(name);
                }
                
                return Ok(_pub);

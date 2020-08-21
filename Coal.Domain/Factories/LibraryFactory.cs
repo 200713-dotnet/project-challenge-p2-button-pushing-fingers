@@ -12,5 +12,15 @@ namespace Coal.Domain.Factories
                     LibraryGames = new List<Game>(),
                };
           }
+
+          public Library Create(int id, string name)
+          {
+               return new Library()
+               {
+                    Id = id,
+                    Name = name, 
+                    LibraryGames = new List<Game>(),
+               };
+          }
      }
 }

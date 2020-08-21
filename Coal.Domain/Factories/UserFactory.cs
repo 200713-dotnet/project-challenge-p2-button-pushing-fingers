@@ -8,5 +8,14 @@ namespace Coal.Domain.Factories
           {
                return new User();
           }
+
+          public User Create(int id, string name)
+          {
+               return new User()
+               {
+                    Id = id,
+                    Name = name,
+               };
+          }
      }
 }
