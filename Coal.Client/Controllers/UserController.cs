@@ -11,5 +11,17 @@ namespace Coal.Client.Controllers
 {
     public class UserController : Controller
     {
+        [HttpPost]
+        public IActionResult Login(UserViewModel uvm)
+        {
+            //uvm.SetCurrentUser(_db);
+            return View("UserProfile",uvm);
+
+        }
+        public IActionResult Library(LibraryViewModel lib)
+        { 
+            
+            return View("UserLibrary",lib);
+        }
     }
 }
