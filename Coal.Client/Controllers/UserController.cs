@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Coal.Client.Models;
 using System.Net.Http;
+using Microsoft.AspNetCore.Cors;
+
 namespace Coal.Client.Controllers
 {
-    
+    [EnableCors]
     public class UserController : Controller
     {
         private static HttpClient _http = new HttpClient();
         [HttpPost]
         public async Task<IActionResult> Login()
         {
-            var response = await _http.GetAsync("http://localhost:5000/api/User");
+            var response = await _http.GetAsync("http://localhost:5002/api/User");
             var UserViewModel = new UserViewModel() { Name = await response.Content.ReadAsStringAsync() };
             //var UserViewModel = await response.Content.;
             return View("UserProfile",UserViewModel);
