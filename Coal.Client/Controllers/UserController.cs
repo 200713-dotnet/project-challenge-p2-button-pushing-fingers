@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Coal.Client.Models;
-
+using System.Net.Http;
 namespace Coal.Client.Controllers
 {
+    
     public class UserController : Controller
     {
+        private static HttpClient _http = new HttpClient();
         [HttpPost]
-        public IActionResult Login(UserViewModel uvm)
+        public async Task<IActionResult> Login(UserViewModel uvm)
         {
-            //uvm.SetCurrentUser(_db);
-            return View("UserProfile",uvm);
+            var response = await _http.GetAsync("http://localhost:5000/api/User");
+            var imageViewModel = new UserViewModel() { Name = await response.Content.ReadAsStringAsync() };
 
+            return View("UserProfile",uvm);
+            //return View(uvm);
         }
         public IActionResult Library(LibraryViewModel lib)
         { 
