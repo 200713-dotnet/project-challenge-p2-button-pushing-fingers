@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Coal.Client.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace Coal.Client.Controllers
 {
@@ -20,7 +21,7 @@ namespace Coal.Client.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new UserViewModel());
         }
 
         public IActionResult Privacy()

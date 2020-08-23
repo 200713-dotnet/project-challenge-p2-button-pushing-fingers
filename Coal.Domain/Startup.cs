@@ -51,12 +51,12 @@ namespace Coal.Domain {
                
                app.UseCors(); 
 
-               app.UseRouting ();
+               app.UseRouting();
 
-               app.UseAuthorization ();
+               app.UseAuthorization();
 
                app.UseEndpoints (endpoints => {
-                    endpoints.MapControllers ();
+                    endpoints.MapControllers();
                });
           }
      }
