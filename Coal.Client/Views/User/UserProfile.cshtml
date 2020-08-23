@@ -1,0 +1,9 @@
+@model Coal.Client.Models.UserViewModel
+
+<h1>@Model.Name's Profile</h1>
+
+<p>Id #@Model.Id</p>
+
+<form action="User/Library" method="POST">
+    <input type="submit" value="Display Game Library">
+</form>
