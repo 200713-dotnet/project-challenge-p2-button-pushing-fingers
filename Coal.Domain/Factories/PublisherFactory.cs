@@ -12,5 +12,15 @@ namespace Coal.Domain.Factories
                     Games = new List<Game>(),
                };
           }
+
+          public Publisher Create(int id, string name)
+          {
+               return new Publisher()
+               {
+                    Id = id,
+                    Name = name,
+                    Games = new List<Game>(),
+               };
+          }
      }
 }
