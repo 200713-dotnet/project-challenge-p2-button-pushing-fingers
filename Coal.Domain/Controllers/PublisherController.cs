@@ -42,22 +42,20 @@ namespace Coal.Domain.Controllers
           public ObjectResult NewGame(string name, string des, decimal price) 
           {
                //int gameId = pr.CreateGame(_pub.Id, name, des, price);
-               //return Ok(pr.CreateGame(_pub.Id, name, des, price)); 
-               return Ok();  
+               return Ok(pr.CreateGame(_pub.Id, name, des, price)); 
+                
           } 
 
           [HttpPost("{gid}/{name}/{des}")]
-          public ObjectResult NewMod(int gid, string name, decimal des) 
+          public ObjectResult NewMod(int gid, string name, string des) 
           {
-               //return Ok(pr.CreateMod(_pub.Id, gid, name, des));
-               return Ok();
+               return Ok(pr.CreateMod(_pub.Id, gid, name, des)); 
           } 
 
           [HttpPost("{gid}/{name}/{des}/{price}")]
           public ObjectResult NewDlc(int gid, string name, string des, decimal price) 
           {
-               //return Ok(pr.CreateMod(_pub.Id, gid, name, des, price));
-               return Ok();
+               return Ok(pr.CreateDLC(_pub.Id, gid, name, des, price));
           } 
      }
 }
