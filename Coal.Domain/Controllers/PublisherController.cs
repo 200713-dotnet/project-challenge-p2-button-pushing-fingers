@@ -28,7 +28,7 @@ namespace Coal.Domain.Controllers
           [HttpGet("{name}")]
           public ObjectResult Get(string name)
           {
-               /*_pub = */pr.ReadGame(name);
+               _pub = pr.Read(name);
                
                if(_pub == null)
                {
@@ -36,6 +36,28 @@ namespace Coal.Domain.Controllers
                }
                
                return Ok(_pub);
-          }    
+          } 
+
+          [HttpPost("{name}/{des}/{price}")]
+          public ObjectResult NewGame(string name, string des, decimal price) 
+          {
+               //int gameId = pr.CreateGame(_pub.Id, name, des, price);
+               //return Ok(pr.CreateGame(_pub.Id, name, des, price)); 
+               return Ok();  
+          } 
+
+          [HttpPost("{gid}/{name}/{des}")]
+          public ObjectResult NewMod(int gid, string name, decimal des) 
+          {
+               //return Ok(pr.CreateMod(_pub.Id, gid, name, des));
+               return Ok();
+          } 
+
+          [HttpPost("{gid}/{name}/{des}/{price}")]
+          public ObjectResult NewDlc(int gid, string name, string des, decimal price) 
+          {
+               //return Ok(pr.CreateMod(_pub.Id, gid, name, des, price));
+               return Ok();
+          } 
      }
 }
