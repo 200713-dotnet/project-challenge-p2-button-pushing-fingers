@@ -17,10 +17,10 @@ namespace Coal.Client.Controllers
         public async Task<IActionResult> Login()
         {
             var response = await _http.GetAsync("http://localhost:5000/api/User");
-            var imageViewModel = new UserViewModel() { Name = await response.Content.ReadAsStringAsync() };
-
-            return View("UserProfile",imageViewModel);
-            //return View(imageViewModel);
+            var UserViewModel = new UserViewModel() { Name = await response.Content.ReadAsStringAsync() };
+            //var UserViewModel = await response.Content.;
+            return View("UserProfile",UserViewModel);
+            //return View(UserViewModel);
         }
         public IActionResult Library(LibraryViewModel lib)
         { 
