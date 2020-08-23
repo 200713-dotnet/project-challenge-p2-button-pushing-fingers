@@ -1,0 +1,34 @@
+@model Coal.Client.Models.LibraryViewModel
+
+<p>Library Id @Model.Id</p>
+<table>
+    <tr>
+        <th>Game Name</th>
+        <th>Game Desc</th>
+        <th>Game Dlc(s)</th>
+        <th>Game Mod(s)</th>
+    </tr>
+    @foreach (var game in @Model.LibraryGames)
+    {
+        <tr>
+            <td>@game.Name</td>
+            <td>@game.Description</td>
+            <td>
+                <ul>
+                @foreach (var dlc in game.Dlcs)
+                {
+                    <li>@dlc.Name</li>
+                }
+                </ul>
+            </td>
+            <td>
+                <ul>
+                @foreach (var mod in game.Mods)
+                {
+                    <li>@mod.Name</li>
+                }
+                </ul>
+            </td>
+        </tr>
+    }
+</table>
