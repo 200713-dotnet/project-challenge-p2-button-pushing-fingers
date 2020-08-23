@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Coal.Client.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace Coal.Client.Controllers
 {
