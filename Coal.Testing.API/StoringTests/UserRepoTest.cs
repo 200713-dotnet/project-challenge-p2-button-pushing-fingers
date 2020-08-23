@@ -161,7 +161,5 @@ namespace Coal.Testing.API.StoringTests
         await _connection.CloseAsync();
       }
     }
-
-    //Insert additional tests with unique parameters/tags here
   }
 }
