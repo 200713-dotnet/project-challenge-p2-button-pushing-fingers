@@ -16,7 +16,7 @@ namespace Coal.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UserViewModel uvm)
         {
-            var response = await _http.GetAsync("http://localhost:5000/api/User");
+            var response = await _http.GetAsync($"http://localhost:5000/api/User/{uvm.Name}");
             var UserViewModel = new UserViewModel() { Name = await response.Content.ReadAsStringAsync() };
 
             return View("UserProfile",UserViewModel);

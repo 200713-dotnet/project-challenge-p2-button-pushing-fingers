@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Coal.Client.Models.UserViewModel;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -10,6 +12,6 @@
 </div>
 
 <form class="text-center" action="/User/login" method="POST">
-    <input type="text" id="name" name="name">
+    <input type="text" id="name" name="name" value="@Model.Name">
     <input type="submit">
 </form>

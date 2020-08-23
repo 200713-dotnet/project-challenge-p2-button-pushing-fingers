@@ -21,7 +21,7 @@ namespace Coal.Client.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new UserViewModel());
         }
 
         public IActionResult Privacy()
