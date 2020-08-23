@@ -113,7 +113,7 @@ namespace Coal.Storing.Repositories
     }
 
     // Creates a new game with the given details
-    public void CreateGame(int publisherId, string name, string desc, decimal price)
+    public Game CreateGame(int publisherId, string name, string desc, decimal price)
     {
       Game game = new Game()
       {
@@ -125,10 +125,11 @@ namespace Coal.Storing.Repositories
       
       _db.Games.Add(game);
       _db.SaveChanges();
+      return game;
     }
 
     // Creates a new Mod with the given details
-    public void CreateMod(int publisherId, int gameId, string name, string desc)
+    public Mod CreateMod(int publisherId, int gameId, string name, string desc)
     {
       Mod mod = new Mod()
       {
@@ -140,10 +141,11 @@ namespace Coal.Storing.Repositories
 
       _db.Mods.Add(mod);
       _db.SaveChanges();
+      return mod;
     }
 
     // Creates a new DLC with the given details
-    public void CreateDLC(int publisherId, int gameId, string name, string desc, decimal price)
+    public DownloadableContent CreateDLC(int publisherId, int gameId, string name, string desc, decimal price)
     {
       DownloadableContent dlc = new DownloadableContent()
       {
@@ -156,6 +158,7 @@ namespace Coal.Storing.Repositories
 
       _db.DownloadableContents.Add(dlc);
       _db.SaveChanges();
+      return dlc;
     }
 
     // Updates the specified game with new information
@@ -230,7 +233,7 @@ namespace Coal.Storing.Repositories
       Mod modToDelete = ReadMod(modId);
 
       //Remove mod from any libraries it's in
-      foreach (var lmod in modToDelete.LibraryMods)
+      foreach (var lmod in modToDelete.LibraryMods.ToList())
       {
         _db.LibraryMods.Attach(lmod);
         _db.LibraryMods.Remove(lmod);
@@ -249,7 +252,7 @@ namespace Coal.Storing.Repositories
       DownloadableContent contentToDelete = ReadDLC(contentId);
 
       //Remove DLC from any libraries it's in
-      foreach (var libdlc in contentToDelete.LibraryDLCs)
+      foreach (var libdlc in contentToDelete.LibraryDLCs.ToList())
       {
         _db.LibraryDLCs.Attach(libdlc);
         _db.LibraryDLCs.Remove(libdlc);
@@ -268,19 +271,19 @@ namespace Coal.Storing.Repositories
       Game gameToDelete = ReadGame(gameId);
 
       //Delete attached mods and librarymods
-      foreach (var mod in gameToDelete.Mods)
+      foreach (var mod in gameToDelete.Mods.ToList())
       {
         DeleteMod(mod.Id);
       }
 
       //Delete attached dlc and librarydlc
-      foreach (var dlc in gameToDelete.DownloadableContents)
+      foreach (var dlc in gameToDelete.DownloadableContents.ToList())
       {
         DeleteDLC(dlc.Id);
       }
 
       //Delete attached librarygames
-      foreach (var lgame in gameToDelete.LibraryGames)
+      foreach (var lgame in gameToDelete.LibraryGames.ToList())
       {
         _db.LibraryGames.Attach(lgame);
         _db.LibraryGames.Remove(lgame);

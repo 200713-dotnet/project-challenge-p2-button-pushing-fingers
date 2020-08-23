@@ -13,5 +13,16 @@ namespace Coal.Domain.Factories
                     Mods = new List<Mod>(),
                };
           }
+
+          public Game Create(int id, string name)
+          {
+               return new Game()
+               {
+                    Id = id,
+                    Name = name,
+                    Dlcs = new List<Dlc>(),
+                    Mods = new List<Mod>(),
+               };
+          }
      }
 }
