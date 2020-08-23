@@ -13,7 +13,7 @@ namespace Coal.Domain.Controllers
 {
      [Route("api/[controller]")]
      [ApiController]
-     [EnableCors]
+     [EnableCors()]
      public class UserController : ControllerBase
      {
           //public static domain.User user;
@@ -51,21 +51,21 @@ namespace Coal.Domain.Controllers
           }
 
           [HttpPut("{uid}/{gid}")]
-          public IActionResult PostGame(int uid, int gid)
+          public IActionResult PutGame(int uid, int gid)
           {
                ur.AddGame(uid, gid); //add game to user's library
                return Ok(ur.ReadGame(gid));
           }   
 
           [HttpPut("{uid}/{dlcid}")]
-          public IActionResult PostDlcBought(int uid, int dlcid)
+          public IActionResult PutDlcBought(int uid, int dlcid)
           {
                ur.AddDLC(uid, dlcid); //add dlc to user's game
                return Ok(ur.ReadDLC(dlcid));
           }
 
           [HttpPut("{uid}/{modid}")]
-          public IActionResult PostMod(int uid, int modid)
+          public IActionResult PutMod(int uid, int modid)
           {
                ur.AddMod(uid, modid); //attach mod to user's game
                return Ok(ur.ReadMod(modid));
