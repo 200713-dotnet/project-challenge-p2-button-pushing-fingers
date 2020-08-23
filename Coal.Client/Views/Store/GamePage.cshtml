@@ -1,2 +1,37 @@
 @model Coal.Client.Models.GameViewModel
 
+<h1 class="text-center">Game Shop Page for</h1>
+<h2 class="text-center">@Model.Name</h2>
+<p class="text-center">@Model.Description</p>
+<p class="text-center">$@Model.Price</p>
+
+<table>
+    <tr>
+        <th>Game's Dlc(s)</th>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+            @foreach (var dlc in Model.Dlcs)
+            {
+                <li>@dlc.Name</li>
+            }
+            </ul>
+        </td>       
+    </tr>
+</table>
+<table>
+    <tr>
+        <th>Game's Mod(s)</th>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+            @foreach (var mod in Model.Mods)
+            {
+                <li>@mod.Name</li>
+            }
+            </ul>
+        </td>
+    </tr>
+</table>
