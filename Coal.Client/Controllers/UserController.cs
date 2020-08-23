@@ -14,13 +14,13 @@ namespace Coal.Client.Controllers
     {
         private static HttpClient _http = new HttpClient();
         [HttpPost]
-        public async Task<IActionResult> Login(UserViewModel uvm)
+        public async Task<IActionResult> Login()
         {
             var response = await _http.GetAsync("http://localhost:5000/api/User");
             var imageViewModel = new UserViewModel() { Name = await response.Content.ReadAsStringAsync() };
 
-            return View("UserProfile",uvm);
-            //return View(uvm);
+            return View("UserProfile",imageViewModel);
+            //return View(imageViewModel);
         }
         public IActionResult Library(LibraryViewModel lib)
         { 
