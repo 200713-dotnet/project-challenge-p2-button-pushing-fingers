@@ -48,10 +48,10 @@ namespace Coal.Domain {
                }
 
                //app.UseHttpsRedirection ();
-               
-               //app.UseCors(); 
 
                app.UseRouting();
+
+               app.UseCors(); 
 
                app.UseAuthorization();
 
