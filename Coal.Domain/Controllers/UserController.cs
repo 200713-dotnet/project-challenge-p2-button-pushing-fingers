@@ -13,7 +13,7 @@ namespace Coal.Domain.Controllers
 {
      [Route("api/[controller]")]
      [ApiController]
-     [EnableCors()]
+     //[EnableCors()]
      public class UserController : ControllerBase
      {
           //public static domain.User user;

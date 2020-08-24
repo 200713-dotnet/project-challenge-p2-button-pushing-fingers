@@ -11,7 +11,7 @@ namespace Coal.Domain.Controllers
 {
      [Route("api/[controller]")]
      [ApiController]
-     [EnableCors]
+     //[EnableCors]
      public class PublisherController : ControllerBase
      {
           private static storing.Publisher _pub;

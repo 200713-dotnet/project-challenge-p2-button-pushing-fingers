@@ -31,13 +31,13 @@ namespace Coal.Domain {
                     options.UseSqlServer(Configuration.GetConnectionString("mssql")); //recommended
                     //options.UseSqlServer(Configuration["dataconnect:mssql"]); //all other config
                });
-               services.AddCors(options => 
-               {
-                    options.AddDefaultPolicy(poli =>
-                    {
-                         poli.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-                    });
-               });
+               // services.AddCors(options => 
+               // {
+               //      options.AddDefaultPolicy(poli =>
+               //      {
+               //           poli.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+               //      });
+               // });
           }
 
           // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace Coal.Domain {
 
                //app.UseHttpsRedirection ();
                
-               app.UseCors(); 
+               //app.UseCors(); 
 
                app.UseRouting();
 
