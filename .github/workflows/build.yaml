@@ -23,6 +23,8 @@ jobs:
           dotnet build
           dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover --logger trx
           dotnet sonarscanner end -d:sonar.login='c00b08f1c3daeddf792a1b84e4227d2f661669b6'
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   # package:
   #   env:
