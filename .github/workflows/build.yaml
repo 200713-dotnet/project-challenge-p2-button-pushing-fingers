@@ -11,22 +11,32 @@ jobs:
       - uses: actions/checkout@v2.3.1
       - run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
   
-  # analyze:
-  #   needs: [build, test]
+  analyze:
+    needs: [build, test]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: git fetch --unshallow
+      - run: dotnet tool install --global dotnet-sonarscanner
+      - run: |
+          dotnet sonarscanner begin -o:'button-pushing-fingers' k:'button-pushing-fingers_Coal' -d:sonar.login='bpfp2coal' -d:sonar.host.url='https://sonarcloud.io/'
+          dotnet build
+          dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover --logger trx
+          dotnet sonarscanner end -d:sonar.login='bpfp2coal'
+  
+  # package:
+  #   env:
+  #     DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
+  #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  #   needs: [analyze]
   #   runs-on: ubuntu-18.04
   #   steps:
   #     - uses: actions/checkout@v2.3.1
-  #     - run: git fetch --unshallow
-  #     - run: dotnet tool install --global dotnet-sonarscanner
-  #     - run: |
-  #         dotnet sonarscanner begin -o:'200713-dotnet' k:'200713-dotnet_project-challenge-p2-button-pushing-fingers' -d:sonar.login='<insert some token here>' -d:sonar.host.url='https://sonarcloud.io/'
-  #         dotnet build
-  #         dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover --logger trx
-  #         dotnet sonarscanner end -d:sonar.login='<insert some token here>'
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-  
-  #package
+  #     - run: docker login --username ${DOCKER_LOGIN} --password ${DOCKER_TOKEN}
+  #     - run: docker image build -f dockerfile -t devopsci .
+  #     - run: docker image tag devopsci bpfrev/devopsci
+  #     - run: docker image push bpfrev/devopsci
+  #     - run: docker logout
 
 name: cibuild
 on: push
