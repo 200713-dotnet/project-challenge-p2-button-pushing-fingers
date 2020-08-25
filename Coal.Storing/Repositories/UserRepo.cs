@@ -51,6 +51,17 @@ namespace Coal.Storing.Repositories
         .FirstOrDefault();
     }
 
+    //Read only the user name and ID
+    public User ReadUserOnly(string name)
+    {
+      return _db.Users.FirstOrDefault(e => e.Name == name);
+    }
+
+    public User ReadUserOnly(int id)
+    {
+      return _db.Users.FirstOrDefault(e => e.Id == id);
+    }
+
     //Reads a game and its publisher, mods, and dlcs
     public Game ReadGame(int id)
     {
