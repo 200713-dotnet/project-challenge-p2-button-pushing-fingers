@@ -32,7 +32,7 @@ namespace Coal.Domain.Controllers
 
     //[ActionName("GetMarketplace")]
     [HttpGet]
-    public IActionResult GetMarketplace()
+    public ObjectResult GetMarketplace()
     {
       List<domain.Game> games = new List<domain.Game>();
       //get list of games for marketplace
@@ -49,7 +49,7 @@ namespace Coal.Domain.Controllers
 
     //[ActionName("Get")]
     [HttpGet("{name}")]
-    public IActionResult GetUser(string name)
+    public ObjectResult GetUser(string name)
     {
       _user = ur.Read(name);
 
