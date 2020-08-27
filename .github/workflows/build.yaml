@@ -27,19 +27,19 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-  # package:
-  #   env:
-  #     DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
-  #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  #   needs: [analyze]
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - uses: actions/checkout@v2.3.1
-  #     - run: docker login --username ${DOCKER_LOGIN} --password ${DOCKER_TOKEN}
-  #     - run: docker image build -f dockerfile -t devopsci .
-  #     - run: docker image tag devopsci bpfrev/devopsci
-  #     - run: docker image push bpfrev/devopsci
-  #     - run: docker logout
+  package:
+    env:
+      DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN_D }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN_D }}
+    needs: [analyze]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: docker login --username ${DOCKER_LOGIN_D} --password ${DOCKER_TOKEN_D}
+      - run: docker image build -f dockerfile -t coalserviceci .
+      - run: docker image tag coalserviceci bpfrev/coalrepo:coalserviceci
+      - run: docker image push bpfrev/coalrepo:coalserviceci
+      - run: docker logout
 
 name: cibuild
 on: push
