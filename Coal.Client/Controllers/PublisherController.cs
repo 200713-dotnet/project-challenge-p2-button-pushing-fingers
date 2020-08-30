@@ -14,8 +14,9 @@ namespace Coal.Client.Controllers
   public class PublisherController : Controller
   {
     private static HttpClient _http = new HttpClient();
+    private static PublisherViewModel _pub;
     private JsonSerializerOptions Result = new JsonSerializerOptions();
-    private PublisherViewModel _pub = new PublisherViewModel();
+    
     private JsonSerializerOptions options = new JsonSerializerOptions
       {
         PropertyNameCaseInsensitive = true
@@ -28,25 +29,25 @@ namespace Coal.Client.Controllers
       PublisherViewModel newPvm = JsonSerializer.Deserialize<PublisherViewModel>(response.Content.ReadAsStringAsync().Result);
       _pub = newPvm;
       _pub.Games = new List<GameViewModel>();
-      return View("PubProfile", newPvm);
+      return View("PubProfile", _pub);
     }
 
     [HttpPost]
     public async Task<IActionResult> SendNewGame(GameViewModel game)
     {
-      _pub.Games.Add(game);
       StringContent content = new StringContent(game.Name);
 
       var response = await _http.PostAsync($"http:localhost:5000/api/Publisher/{_pub.Id}/{game.Name}/{game.Description}/{game.Price}", content);
       response.EnsureSuccessStatusCode();
 
+      _pub.Games.Add(game);
       return View("PubProfile", _pub);
     }
+
     [HttpGet]
     public IActionResult New(PublisherViewModel pub)
     {
-      _pub = pub;
-       
+      _pub = pub;    
       return View("NewGame", new GameViewModel());
     }
 

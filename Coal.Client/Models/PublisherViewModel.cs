@@ -6,9 +6,9 @@ namespace Coal.Client.Models
   {
     public List<GameViewModel> Games { get; set; }
 
-    public PublisherViewModel()
-    {
-      Games = new List<GameViewModel>();
-    }
+    // public PublisherViewModel()
+    // {
+    //   Games = new List<GameViewModel>();
+    // }
   }
 }
