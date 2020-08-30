@@ -1,17 +1,18 @@
-﻿@model Coal.Client.Models.UserViewModel;
-
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
-
-
 <div class="text-center">
     <h1 class="display-4">Welcome To Coal</h1>
-    <p>Enter a name below to login</p>
+    <p>Choose the proper login</p>
 </div>
 
-<form class="text-center" action="/User/login" method="POST">
-    <input type="text" id="name" name="name" value="@Model.Name">
-    <input type="submit">
+<h5>User Login</h5>
+<form class="text-center" action="/home/userlog" method="POST">
+    <button type="submit">Go to User Login</button>
+</form>
+
+<h5>Publisher Login</h5>
+<form class="text-center" action="/home/publog" method="POST">
+    <button type="submit">Go to Pubisher Login</button>
 </form>

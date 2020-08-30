@@ -44,7 +44,8 @@ namespace Coal.Domain.Controllers
         g.Price = m.Price;
         games.Add(g);
       }
-      return Ok(JsonSerializer.Serialize(games));
+      domain.Library mp = new domain.Library(){LibraryGames = games};
+      return Ok(JsonSerializer.Serialize(mp));
     }
 
     //[ActionName("Get")]

@@ -1,0 +1,18 @@
+@model Coal.Client.Models.PublisherViewModel;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome To Coal</h1>
+    <p>Enter a publisher name below to login</p>
+</div>
+
+<h5>Publisher Login</h5>
+<form class="text-center" action="/publisher/login" method="POST">
+    <input type="text" id="name" name="name" value="@Model.Name">
+    <input type="submit">
+</form>

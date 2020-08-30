@@ -44,24 +44,24 @@ namespace Coal.Domain.Controllers
       return Ok(JsonSerializer.Serialize(pub));
     }
 
-    [HttpPost("{name}/{des}/{price}")]
-    public ObjectResult NewGame(string name, string des, decimal price)
+    [HttpPost("{pid}/{name}/{des}/{price}")]
+    public ObjectResult CreateGame(int pid, string name, string des, decimal price)
     {
       //int gameId = pr.CreateGame(_pub.Id, name, des, price);
-      return Ok(pr.CreateGame(_pub.Id, name, des, price));
+      return Ok(pr.CreateGame(pid, name, des, price));
 
     }
 
-    [HttpPost("{gid}/{name}/{des}")]
-    public ObjectResult NewMod(int gid, string name, string des)
+    [HttpPost("{pid}/{gid}/{name}/{des}")]
+    public ObjectResult NewMod(int pid, int gid, string name, string des)
     {
       return Ok(pr.CreateMod(_pub.Id, gid, name, des));
     }
 
-    [HttpPost("{gid}/{name}/{des}/{price}")]
-    public ObjectResult NewDlc(int gid, string name, string des, decimal price)
+    [HttpPost("{pid}/{gid}/{name}/{des}/{price}")]
+    public ObjectResult NewDlc(int pid, int gid, string name, string des, decimal price)
     {
-      return Ok(pr.CreateDLC(_pub.Id, gid, name, des, price));
+      return Ok(pr.CreateDLC(pid, gid, name, des, price));
     }
   }
 }

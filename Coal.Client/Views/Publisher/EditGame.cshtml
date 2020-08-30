@@ -1,0 +1,24 @@
+@model Coal.Client.Models.GameViewModel
+
+<div class="text-center">
+    <h1>Edit @Model.Name</h1>
+</div>
+
+<form action="/publisher/sendnewgame" method="post">
+  <label name="name">Title:</label>
+  <input type="text" name="name" value="@Model.Name">
+
+  <br>
+
+  <label name="desc">Description:</label>
+  <input type="text" name="desc" value="@Model.Description">
+
+  <br>
+
+  <label name="price">Price:</label>
+  <input type="number" name="price" value="@Model.Price">
+
+  <br>
+  
+  <button type="submit">Submit Edit</button>
+</form>

@@ -11,29 +11,32 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 namespace Coal.Client.Controllers
 {
-    
-    public class UserController : Controller
-    {
-        private static HttpClient _http = new HttpClient();
-        private JsonSerializerOptions Result = new JsonSerializerOptions();
-        [HttpPost]
-        public async Task<IActionResult> Login(UserViewModel uvm)
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            var response = await _http.GetAsync($"http://localhost:5000/api/User/{uvm.Name}");
-            UserViewModel newUvm = JsonSerializer.Deserialize<UserViewModel>(response.Content.ReadAsStringAsync().Result);
-            //var UserViewModel = new UserViewModel() { Name = await response.Content.ReadAsStringAsync() };
+  public class UserController : Controller
+  {
+    private static HttpClient _http = new HttpClient();
+    private JsonSerializerOptions Result = new JsonSerializerOptions();
+    private static UserViewModel _user;
 
-            return View("UserProfile",newUvm);
-            //return View(uvm);
-        }
-        public IActionResult Library(LibraryViewModel lib)
-        { 
-            
-            return View("UserLibrary",lib);
-        }
+    [HttpPost]
+    public async Task<IActionResult> Login(UserViewModel uvm)
+    {
+      var options = new JsonSerializerOptions
+      {
+        PropertyNameCaseInsensitive = true
+      };
+
+      var response = await _http.GetAsync($"http://localhost:5000/api/User/{uvm.Name}");
+      UserViewModel newUvm = JsonSerializer.Deserialize<UserViewModel>(response.Content.ReadAsStringAsync().Result);
+      _user = newUvm;
+      return View("UserProfile", newUvm);
     }
+
+    [HttpGet]
+    public IActionResult Library(LibraryViewModel lib)
+    {
+
+      return View("UserLibrary", lib);
+    }
+
+  }
 }
