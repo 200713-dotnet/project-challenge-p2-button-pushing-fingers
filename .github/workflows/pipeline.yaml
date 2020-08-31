@@ -1,20 +1,47 @@
 jobs:
-  build:
+  build_mvc:
+    defaults:
+      run:
+        working-directory: Coal.Client/
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.3.1
       - run: dotnet restore
-      - run: dotnet build
+      - run: dotnet build --no-restore
 
-  test:
+  build_api:
+    # defaults:
+    #   run:
+    #     working-directory: Coal.Domain/
+      runs-on: ubuntu-20.04
+      steps:
+        - uses: actions/checkout@v2.3.1
+        - run: dotnet restore
+        - run: dotnet build --no-restore      
+
+  test_mvc:
+    defaults:
+      run:
+        working-directory: Coal.Client/
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.3.1
       - run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 
-  
-  analyze:
-    needs: [build, test]
+  test_api:
+    # defaults:
+    #   run:
+    #     working-directory: Coal.Domain/
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover 
+
+  analyze_mvc:
+    defaults:
+      run:
+        working-directory: Coal.Client/
+    needs: [build_mvc, test_mvc]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.3.1
@@ -27,7 +54,59 @@ jobs:
           dotnet sonarscanner end -d:sonar.login='c00b08f1c3daeddf792a1b84e4227d2f661669b6'
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+          
+  analyze_api:
+    # defaults:
+    #   run:
+    #     working-directory: Coal.Domain/
+    needs: [build_api, test_api]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: git fetch --unshallow
+      - run: dotnet tool install --global dotnet-sonarscanner
+      - run: |
+          dotnet sonarscanner begin -o:'button-pushing-fingers' -k:'bpfp2coal' -d:sonar.login='c00b08f1c3daeddf792a1b84e4227d2f661669b6' -d:sonar.host.url='https://sonarcloud.io/' -d:sonar.cs.opencover.reportsPaths='Coal.Testing.*/coverage.opencover.xml'
+          dotnet build
+          dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover --logger trx
+          dotnet sonarscanner end -d:sonar.login='c00b08f1c3daeddf792a1b84e4227d2f661669b6'
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  package_mvc:
+    defaults:
+      run: 
+        working-directory: Coal.Client/
+    env:
+      DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    needs: analyze_mvc
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: echo ${DOCKER_TOKEN} | docker login -u ${DOCKER_LOGIN} --password-stdin
+      - run: docker image build -f ../.docker/mvc.dockerfile -t mvc .
+      - run: docker image tag mvc kguers/p2mvc
+      - run: docker image push kguers/p2mvc
+      - run: docker logout
+
+  package_api:
+    # defaults:
+    #   run: 
+    #     working-directory: Coal.Domain/
+    env:
+      DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    needs: analyze_api
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: echo ${DOCKER_TOKEN} | docker login -u ${DOCKER_LOGIN} --password-stdin
+      - run: docker image build -f .docker/api.dockerfile -t api .
+      - run: docker image tag mvc kguers/p2api
+      - run: docker image push kguers/p2api
+      - run: docker logout      
+
   # package:
   #   env:
   #     DOCKER_LOGIN: ${{ secrets.DOCKER_LOGIN }}
@@ -42,14 +121,39 @@ jobs:
   #     - run: docker image push bpfrev/devopsci
   #     - run: docker logout
 
+  deploy_mvc:
+    # defaults:
+    #   run: 
+    #     working-directory: Coal.Client/
+    env:
+      AZURE_LOGIN: ${{ secrets.AZURE_LOGIN }}
+      AZURE_TOKEN: ${{ secrets.AZURE_TOKEN }}
+    needs: package_mvc
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: az login --service-principal ${AZURE_LOGIN} --password ${AZURE_TOKEN}
+      - run: az get-credentials --name ptwoaks --resource-group ptwoaks --admin
+      - run: kubectl apply --filename ../.kubernetes/mvc
+      - run: kubectl rollout restart --filename ../.kubernetes/mvc/deployment.yaml
+      - run: az logout
+
+  deploy_api:
+    # defaults:
+    #   run: 
+    #     working-directory: Coal.Domain/
+    env:
+      AZURE_LOGIN: ${{ secrets.AZURE_LOGIN }}
+      AZURE_TOKEN: ${{ secrets.AZURE_TOKEN }}
+    needs: package_api
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: az login --service-principal ${AZURE_LOGIN} --password ${AZURE_TOKEN}
+      - run: az get-credentials --name ptwoaks --resource-group ptwoaks --admin
+      - run: kubectl apply --filename ../.kubernetes/api
+      - run: kubectl rollout restart --filename ../.kubernetes/api/deployment.yaml
+      - run: az logout
+
 name: pipeline
 on: push
-
-#build_mvc
-# defaults:
-    # run:
-      # working-directory: Coal.Client
-      # runs-on: ubuntu-20.04
-      # steps:
-          #- uses: actions/checkout@v2.3.1
-          #- run:

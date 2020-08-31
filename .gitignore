@@ -352,3 +352,4 @@ MigrationBackup/
 **/*appsettings*.json
 Coal.Client/appsettings.json
 Coal.Domain/appsettings.json
+Coal.ClientNG/
