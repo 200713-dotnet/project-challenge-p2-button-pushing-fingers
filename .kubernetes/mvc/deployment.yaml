@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mvc
+  template:
+    metadata:
+      labels:
+        app: mvc
+    spec:
+      containers:
+      - image: kguers/p2mvc
+        name: mvc
+        ports:
+          - containerPort: 80
+            name: mvc-http

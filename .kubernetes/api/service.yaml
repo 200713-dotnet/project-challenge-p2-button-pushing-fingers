@@ -1,0 +1,13 @@
+---
+  kind: Service
+  apiVersion: v1
+  metadata:
+    name: api
+  spec:
+    ports:
+      - name: api
+        port: 80
+        targetPort: api-http
+    selector:
+      app: api
+    type: LoadBalancer
