@@ -29,7 +29,7 @@ namespace Coal.Domain.Controllers
     }
 
     [HttpGet("{name}")]
-    public ObjectResult Get(string name)
+    public IActionResult Get(string name)
     {
       _pub = pr.Read(name);
 
@@ -40,28 +40,47 @@ namespace Coal.Domain.Controllers
       }
       var p = new PublisherFactory();
       pub = p.Create(_pub.Id, _pub.Name);
-      //pub.Games = new List<domain.Game>();
       return Ok(JsonSerializer.Serialize(pub));
     }
 
+    [HttpGet("{pid}/{game}")]
+    public IActionResult GetGame(int pid, string game) //game is dummy value for uniqueness
+    {
+      _pub = pr.Read(pid);
+      if(_pub.Games == null)
+      {
+        return Ok(JsonSerializer.Serialize(_pub.Games));
+      }
+
+      List<domain.Game> games = new List<domain.Game>();
+      foreach(var g in _pub.Games)
+      {
+        games.Add(new domain.Game(){Id = g.Id, Name = g.Name, Description = g.Description, Price = g.Price});
+      }
+
+      domain.Library lib = new domain.Library(){LibraryGames = games};
+      return Ok(JsonSerializer.Serialize(lib));
+    }    
+
     [HttpPost("{pid}/{name}/{des}/{price}")]
-    public ObjectResult CreateGame(int pid, string name, string des, decimal price)
+    public IActionResult CreateGame(int pid, string name, string des, decimal price)
     {
-      //int gameId = pr.CreateGame(_pub.Id, name, des, price);
-      return Ok(pr.CreateGame(pid, name, des, price));
-
+      pr.CreateGame(pid, name, des, price);
+      return Ok();
     }
 
-    [HttpPost("{pid}/{gid}/{name}/{des}")]
-    public ObjectResult NewMod(int pid, int gid, string name, string des)
+    [HttpPost("{pid}/{gid}/{name}/{des}/{mod}")]
+    public IActionResult NewMod(int pid, int gid, string name, string des, string mod)
     {
-      return Ok(pr.CreateMod(_pub.Id, gid, name, des));
+      pr.CreateMod(_pub.Id, gid, name, des);
+      return Ok();
     }
 
-    [HttpPost("{pid}/{gid}/{name}/{des}/{price}")]
-    public ObjectResult NewDlc(int pid, int gid, string name, string des, decimal price)
+    [HttpPost("{pid}/{gid}/{name}/{des}/{price}/{dlc}")]
+    public IActionResult NewDlc(int pid, int gid, string name, string des, decimal price, string dlc)
     {
-      return Ok(pr.CreateDLC(pid, gid, name, des, price));
+      pr.CreateDLC(pid, gid, name, des, price);
+      return Ok();
     }
   }
 }

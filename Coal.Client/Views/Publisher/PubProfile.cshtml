@@ -5,9 +5,9 @@
 <p>Model Id #@Model.Id</p>
 
 <form action="/publisher/new" method="get">
-  <button type="submit" name="lib" value="@(new GameViewModel())">Create Game</button>
+  <button type="submit" name="pub" value="@Model">Create Game</button>
 </form>
 
-<form action="/publisher/edit" method="get">
-  <button type="submit" name="lib" value="@Model">Edit Game</button>
+<form action="/publisher/select" method="get">
+  <button type="submit" name="pub" value="@Model">Edit Game</button>
 </form>

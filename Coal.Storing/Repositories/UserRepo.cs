@@ -92,6 +92,15 @@ namespace Coal.Storing.Repositories
         .ToList();
     }
 
+    public List<LibraryGame> ReadAllGames(int uid)
+    {
+      return _db.LibraryGames
+        .Where(e => e.Library.UserId == uid)
+        .Include(e => e.Game).ThenInclude(e => e.Id)
+        .Include(e => e.Game).ThenInclude(e => e.Description)
+        .Include(e => e.Game).ThenInclude(e => e.Price)
+        .ToList();
+    }
     //Reads a mod and the game/publisher it's attached to
     public Mod ReadMod(int id)
     {
