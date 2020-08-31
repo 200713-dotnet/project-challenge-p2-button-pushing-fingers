@@ -8,5 +8,12 @@ namespace Coal.Client.Models
     public decimal Price { get; set; }
     public List<DlcViewModel> Dlcs { get; set; }
     public List<ModViewModel> Mods { get; set; }
+
+    public GameViewModel()
+    {
+      Dlcs = new List<DlcViewModel>();
+      Mods = new List<ModViewModel>();
+    }
+    
   }
 }

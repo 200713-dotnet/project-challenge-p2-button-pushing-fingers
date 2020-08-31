@@ -44,10 +44,10 @@ namespace Coal.Domain.Controllers
         g.Price = m.Price;
         games.Add(g);
       }
-      return Ok(JsonSerializer.Serialize(games));
+      domain.Library mp = new domain.Library(){LibraryGames = games};
+      return Ok(JsonSerializer.Serialize(mp));
     }
 
-    //[ActionName("Get")]
     [HttpGet("{name}")]
     public ObjectResult GetUser(string name)
     {
@@ -64,48 +64,38 @@ namespace Coal.Domain.Controllers
       return Ok(JsonSerializer.Serialize(user));
     }
 
-    [HttpGet("{uid}/{gid}")]
-    public IActionResult GetGames(int uid, int gid)
+    [HttpGet("{uid}/{libid}")]
+    public ObjectResult GetLibrary(int uid, int libid)
     {
-      ur.AddGame(uid, gid); //add game to user's library
-      var g = ur.ReadGame(gid);
-      var gameFactory = new GameFactory();
-      domain.Game game = gameFactory.Create(g.Id, g.Name);
-      game.Description = g.Description;
-      game.Price = g.Price;
-      return Ok(JsonSerializer.Serialize(game));
+      List<domain.Game> games = new List<domain.Game>();
+      //get list of games for marketplace
+      foreach(var m in ur.ReadAllGames(uid))
+      {
+        var gf = new GameFactory();
+        domain.Game g = gf.Create(m.Id, m.Name);
+        g.Description = m.Description;
+        g.Price = m.Price;
+        games.Add(g);
+      }
+      domain.Library mp = new domain.Library(){LibraryGames = games};
+      return Ok(JsonSerializer.Serialize(mp));
     }
 
-    [HttpGet("{uid}/{gid}/{dlcid}")]
-    public IActionResult GetDlcs(int uid, int gid, int dlcid)
-    {
-      List<domain.Dlc> dlcs = new List<domain.Dlc>();
-      //get list of dlc for a particular game
-      foreach(var l in ur.ReadAllDLC(/*gid*/))
-      {
-        var dlcFactory = new DlcFactory();
-        domain.Dlc d = dlcFactory.Create(l.Id, l.Name);
-        d.Description = l.Description;
-        d.Price = l.Price;
-        dlcs.Add(d);
-      }
-      return Ok(JsonSerializer.Serialize(dlcs));
-    }
-
-    [HttpGet("{uid}/{gid}/{modid}")]
-    public IActionResult GetMods(int uid, int gid, int modid)
-    {
-      List<domain.Mod> mods = new List<domain.Mod>();
-      //get list of mods for a particular game
-      foreach(var l in ur.ReadAllMods(/*gid*/))
-      {
-        var modFactory = new ModFactory();
-        domain.Mod m = modFactory.Create(l.Id, l.Name);
-        m.Description = l.Description;
-        mods.Add(m);
-      }
-      return Ok(JsonSerializer.Serialize(mods));
-    }
+    // [HttpGet("{uid}/{gid}/{dlcid}")]
+    // public IActionResult GetDlcs(int uid, int gid, int dlcid)
+    // {
+    //   List<domain.Dlc> dlcs = new List<domain.Dlc>();
+    //   //get list of dlc for a particular game
+    //   foreach(var l in ur.ReadAllDLC(/*gid*/))
+    //   {
+    //     var dlcFactory = new DlcFactory();
+    //     domain.Dlc d = dlcFactory.Create(l.Id, l.Name);
+    //     d.Description = l.Description;
+    //     d.Price = l.Price;
+    //     dlcs.Add(d);
+    //   }
+    //   return Ok(JsonSerializer.Serialize(dlcs));
+    // }
 
     [HttpPost("{uid}/{gid}")]
     public IActionResult PostGame(int uid, int gid)
@@ -115,8 +105,8 @@ namespace Coal.Domain.Controllers
       return Ok();
     }
 
-    [HttpPost("{uid}/{dlcid}")]
-    public IActionResult PostDlc(int uid, int dlcid)
+    [HttpPost("{uid}/{dlcid}/{dlc}")]
+    public IActionResult PostDlc(int uid, int dlcid, string dlc) //dlc = dummy value
     {
       //add dlc to game in user library (dlc bought by user)
       ur.AddDLC(uid, dlcid);

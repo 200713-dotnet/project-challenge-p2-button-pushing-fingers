@@ -1,0 +1,12 @@
+@model List<Coal.Client.Models.GameViewModel>
+
+<form action="/publisher/edit" method="get">
+  @foreach (var g in @Model)
+  {
+    <input type="radio" name="game" value="@g">
+    <label name="game">@g.Name</label>
+  }
+
+  <button type="submit">Edit Game</button>
+</form>
+

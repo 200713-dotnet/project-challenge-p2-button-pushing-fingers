@@ -1,19 +1,25 @@
 @model Coal.Client.Models.LibraryViewModel
 
-<table>
-    <tr>
-        <th>Game Name</th>
-        <th>Game Desc</th>
-        <th>Game Price</th>
-    </tr>
-    @foreach (var game in @Model.LibraryGames)
-    {
-        <tr>
-            <td>@game.Name</td>
-            <td>@game.Description</td>
-            <td>@game.Price</td>
-            <td><a asp-controller="Store" asp-action="GamePage"></a></td>
-        </tr>
-    }
+<form action="/user/postgame" method="post">
 
+<table>
+  <tr>
+      <th>Buy</th>
+      <th>Game Name</th>
+      <th>Game Desc</th>
+      <th>Game Price</th>
+  </tr>
+  @foreach (var game in @Model.LibraryGames)
+  {
+    <tr>
+      <td><button type="submit" name="buy" value="@game.Id">Buy Game</button></td>
+      <td>@game.Name</td>
+      <td>@game.Description</td>
+      <td>@game.Price</td>
+      <td><a asp-controller="Store" asp-action="GamePage"></a></td>
+    </tr>
+  }
+<br>
 </table>
+
+</form>
