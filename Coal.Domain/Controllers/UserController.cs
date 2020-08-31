@@ -69,11 +69,10 @@ namespace Coal.Domain.Controllers
     {
       List<domain.Game> games = new List<domain.Game>();
       //get list of games for marketplace
-      foreach(var sg in ur.ReadAllGames(uid))
+      foreach(var m in ur.ReadAllGames(uid))
       {
-        var m = ur.ReadGame(sg.GameId);
-        var gFactory = new GameFactory();
-        domain.Game g = gFactory.Create(m.Id, m.Name);
+        var gf = new GameFactory();
+        domain.Game g = gf.Create(m.Id, m.Name);
         g.Description = m.Description;
         g.Price = m.Price;
         games.Add(g);

@@ -41,7 +41,7 @@ namespace Coal.Client.Controllers
     [HttpGet]
     public async Task<IActionResult> Library(LibraryViewModel lib)
     {
-      var response = await _http.GetAsync($"http://localhost:5000/api/User/{_user.Id}/{lib.Id}"); //lib.Id dummy value for uniqueness
+      var response = await _http.GetAsync($"http://localhost:5000/api/User/{_user.Id}/{1}"); //1 dummy value for uniqueness
       LibraryViewModel library = JsonSerializer.Deserialize<LibraryViewModel>(response.Content.ReadAsStringAsync().Result);
 
       _user.UserLibrary = library;
