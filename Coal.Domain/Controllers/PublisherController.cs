@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using domain = Coal.Domain.Models;
 using Coal.Domain.Factories;
@@ -16,9 +15,9 @@ namespace Coal.Domain.Controllers
   [EnableCors]
   public class PublisherController : ControllerBase
   {
-    private static storing.Publisher _pub;
-    private static domain.Publisher pub;
-    private PublisherRepo pr;
+    private storing.Publisher _pub;
+    private domain.Publisher pub;
+    private readonly PublisherRepo pr;
 
     private readonly CoalDbContext _db;
 
@@ -71,17 +70,3 @@ namespace Coal.Domain.Controllers
     
   }
 }
-
-    //[HttpPost("{pid}/{gid}/{name}/{des}/{mod}")]
-    // public IActionResult NewMod(int pid, int gid, string name, string des, string mod)
-    // {
-    //   pr.CreateMod(_pub.Id, gid, name, des);
-    //   return Ok();
-    // }
-
-    // [HttpPost("{pid}/{gid}/{name}/{des}/{price}/{dlc}")]
-    // public IActionResult NewDlc(int pid, int gid, string name, string des, decimal price, string dlc)
-    // {
-    //   pr.CreateDLC(pid, gid, name, des, price);
-    //   return Ok();
-    // }

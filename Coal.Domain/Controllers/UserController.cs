@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using domain = Coal.Domain.Models;
 using Coal.Domain.Factories;
@@ -6,10 +5,8 @@ using storing = Coal.Storing.Models;
 using Coal.Storing.Repositories;
 using Coal.Storing;
 using Microsoft.AspNetCore.Cors;
-//using System.Net.Http;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Coal.Domain.Controllers
 {
@@ -20,7 +17,7 @@ namespace Coal.Domain.Controllers
   {
     public static domain.User user;
     private static storing.User _user;
-    private UserRepo ur;
+    private readonly UserRepo ur;
 
     private readonly CoalDbContext _db;
 
