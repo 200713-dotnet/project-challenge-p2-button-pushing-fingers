@@ -15,8 +15,8 @@ namespace Coal.Domain.Controllers
   [EnableCors()]
   public class UserController : ControllerBase
   {
-    public static domain.User user;
-    private static storing.User _user;
+    public domain.User user;
+    private storing.User _user;
     private readonly UserRepo ur;
 
     private readonly CoalDbContext _db;
@@ -87,27 +87,3 @@ namespace Coal.Domain.Controllers
     }  
   }
 }
-
-// [HttpGet("{uid}/{gid}/{dlcid}")]
-    // public IActionResult GetDlcs(int uid, int gid, int dlcid)
-    // {
-    //   List<domain.Dlc> dlcs = new List<domain.Dlc>();
-    //   //get list of dlc for a particular game
-    //   foreach(var l in ur.ReadAllDLC(/*gid*/))
-    //   {
-    //     var dlcFactory = new DlcFactory();
-    //     domain.Dlc d = dlcFactory.Create(l.Id, l.Name);
-    //     d.Description = l.Description;
-    //     d.Price = l.Price;
-    //     dlcs.Add(d);
-    //   }
-    //   return Ok(JsonSerializer.Serialize(dlcs));
-    // }
-
-    // [HttpPost("{uid}/{dlcid}/{dlc}")]
-    // public IActionResult PostDlc(int uid, int dlcid, string dlc) //dlc = dummy value
-    // {
-    //   //add dlc to game in user library (dlc bought by user)
-    //   ur.AddDLC(uid, dlcid);
-    //   return Ok();
-    // } 
