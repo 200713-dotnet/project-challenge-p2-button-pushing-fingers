@@ -16,21 +16,11 @@ namespace Coal.Testing.API.DomainTests
     private static readonly DbContextOptions<CoalDbContext> _options = new DbContextOptionsBuilder<CoalDbContext>().UseSqlite(_connection).Options;
     private static HttpClient _http = new HttpClient();
     public string uri = "http://localhost:5000/api/image";
-    public static readonly IEnumerable<object[]> _records = new List<object[]>()
-    {
-      new object[]
-      {
-        //Insert test objects
-        new User(){Id = 1, Name = "TestUser"},
-        new Publisher(){Id = 1, Name = "TestPublisher"},
-        new Game(){Id = 1, Name = "TestGame", Description = "This is a test game", Price = 1.00m}, //Must set publisher during tests
-        new Mod(){Id = 1, Name = "TestMod", Description = "This is a test mod"}, //Set game and publisher in test
-        new DownloadableContent(){Id = 1, Name = "TestDLC", Description = "This is a test DLC", Price = 0.50m} //See above
-      }
-    };
+    
 
-    [Fact]
-    public async void Test_GetMarketplace()
+    [Theory]
+    [InlineData("TestUser", 1, 1)]
+    public async void Test_Get(string userName, int uid, int gid)
     {
       await _connection.OpenAsync();
 
@@ -45,8 +35,14 @@ namespace Coal.Testing.API.DomainTests
         using (var ctx = new CoalDbContext(_options))
         {
           var uc = new UserController(ctx);
-          var response = uc.GetMarketplace();
-          Assert.NotNull(response);
+          var response1 = uc.GetMarketplace();
+          Assert.NotNull(response1);
+
+          var response2 = uc.GetUser(userName);
+          Assert.NotNull(response2);
+
+          var response3 = uc.GetLibrary(uid, gid);
+          Assert.NotNull(response3);
         }
       }
 
@@ -56,37 +52,32 @@ namespace Coal.Testing.API.DomainTests
       }
     }
 
-    [Theory]
-    [InlineData("TestUser")]
-    public async void Test_GetUser(string userName)
-    {
-      await _connection.OpenAsync();
+    // [Theory]
+    // [InlineData(1,3)]
+    // public async void Test_Post(int uid, int gid)
+    // {
+    //   await _connection.OpenAsync();
 
-      try
-      {
-        using (var ctx = new CoalDbContext(_options))
-        {
-          await ctx.Database.EnsureCreatedAsync();
-        }
+    //   try
+    //   {
+    //     using (var ctx = new CoalDbContext(_options))
+    //     {
+    //       await ctx.Database.EnsureCreatedAsync();
+    //     }
 
-        //Tests httpget to get user and read reponse content
-        using (var ctx = new CoalDbContext(_options))
-        {
-          var uc = new UserController(ctx);
-          var response = uc.GetUser(userName);
-          Assert.NotNull(response);
-        }
-      }
+    //     //Tests httpget to post user and read reponse content
+    //     using (var ctx = new CoalDbContext(_options))
+    //     {
+    //       var uc = new UserController(ctx);
+    //       var response = uc.PostGame(uid, gid);
+    //       Assert.NotNull(response);
+    //     }
+    //   }
 
-      finally
-      {
-        await _connection.CloseAsync();
-      }
-    }
-
-     //Test_GetDlc
-     //Test_GetMod
-     //Test_PostDlc
-     //Test_PostGame
+    //   finally
+    //   {
+    //     await _connection.CloseAsync();
+    //   }
+    // } 
   }
 }

@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using domain = Coal.Domain.Models;
 using Coal.Domain.Factories;
@@ -6,10 +5,8 @@ using storing = Coal.Storing.Models;
 using Coal.Storing.Repositories;
 using Coal.Storing;
 using Microsoft.AspNetCore.Cors;
-//using System.Net.Http;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Coal.Domain.Controllers
 {
@@ -20,7 +17,7 @@ namespace Coal.Domain.Controllers
   {
     public static domain.User user;
     private static storing.User _user;
-    private UserRepo ur;
+    private readonly UserRepo ur;
 
     private readonly CoalDbContext _db;
 
@@ -81,7 +78,17 @@ namespace Coal.Domain.Controllers
       return Ok(JsonSerializer.Serialize(mp));
     }
 
-    // [HttpGet("{uid}/{gid}/{dlcid}")]
+    [HttpPost("{uid}/{gid}")]
+    public IActionResult PostGame(int uid, int gid)
+    {
+      //add game to user library
+      ur.AddGame(uid, gid);
+      return Ok();
+    }  
+  }
+}
+
+// [HttpGet("{uid}/{gid}/{dlcid}")]
     // public IActionResult GetDlcs(int uid, int gid, int dlcid)
     // {
     //   List<domain.Dlc> dlcs = new List<domain.Dlc>();
@@ -97,22 +104,10 @@ namespace Coal.Domain.Controllers
     //   return Ok(JsonSerializer.Serialize(dlcs));
     // }
 
-    [HttpPost("{uid}/{gid}")]
-    public IActionResult PostGame(int uid, int gid)
-    {
-      //add game to user library
-      ur.AddGame(uid, gid);
-      return Ok();
-    }
-
-    [HttpPost("{uid}/{dlcid}/{dlc}")]
-    public IActionResult PostDlc(int uid, int dlcid, string dlc) //dlc = dummy value
-    {
-      //add dlc to game in user library (dlc bought by user)
-      ur.AddDLC(uid, dlcid);
-      return Ok();
-    }
-
-    
-  }
-}
+    // [HttpPost("{uid}/{dlcid}/{dlc}")]
+    // public IActionResult PostDlc(int uid, int dlcid, string dlc) //dlc = dummy value
+    // {
+    //   //add dlc to game in user library (dlc bought by user)
+    //   ur.AddDLC(uid, dlcid);
+    //   return Ok();
+    // } 

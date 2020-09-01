@@ -1,0 +1,13 @@
+---
+  kind: Service
+  apiVersion: v1
+  metadata:
+    name: mvc
+  spec:
+    ports:
+      - name: mvc
+        port: 80
+        targetPort: mvc-http
+    selector:
+      app: mvc
+    type: LoadBalancer
