@@ -59,7 +59,7 @@ jobs:
     # defaults:
     #   run:
     #     working-directory: Coal.Domain/
-    needs: [build_api, test_api]
+    needs: [build_api, test_api, package_mvc]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.3.1
