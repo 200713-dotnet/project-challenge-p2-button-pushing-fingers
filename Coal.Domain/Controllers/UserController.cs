@@ -81,7 +81,17 @@ namespace Coal.Domain.Controllers
       return Ok(JsonSerializer.Serialize(mp));
     }
 
-    // [HttpGet("{uid}/{gid}/{dlcid}")]
+    [HttpPost("{uid}/{gid}")]
+    public IActionResult PostGame(int uid, int gid)
+    {
+      //add game to user library
+      ur.AddGame(uid, gid);
+      return Ok();
+    }  
+  }
+}
+
+// [HttpGet("{uid}/{gid}/{dlcid}")]
     // public IActionResult GetDlcs(int uid, int gid, int dlcid)
     // {
     //   List<domain.Dlc> dlcs = new List<domain.Dlc>();
@@ -97,22 +107,10 @@ namespace Coal.Domain.Controllers
     //   return Ok(JsonSerializer.Serialize(dlcs));
     // }
 
-    [HttpPost("{uid}/{gid}")]
-    public IActionResult PostGame(int uid, int gid)
-    {
-      //add game to user library
-      ur.AddGame(uid, gid);
-      return Ok();
-    }
-
-    [HttpPost("{uid}/{dlcid}/{dlc}")]
-    public IActionResult PostDlc(int uid, int dlcid, string dlc) //dlc = dummy value
-    {
-      //add dlc to game in user library (dlc bought by user)
-      ur.AddDLC(uid, dlcid);
-      return Ok();
-    }
-
-    
-  }
-}
+    // [HttpPost("{uid}/{dlcid}/{dlc}")]
+    // public IActionResult PostDlc(int uid, int dlcid, string dlc) //dlc = dummy value
+    // {
+    //   //add dlc to game in user library (dlc bought by user)
+    //   ur.AddDLC(uid, dlcid);
+    //   return Ok();
+    // } 

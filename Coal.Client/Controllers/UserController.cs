@@ -13,10 +13,15 @@ namespace Coal.Client.Controllers
 {
   public class UserController : Controller
   {
-    private static HttpClient _http = new HttpClient();
+    private readonly HttpClient _http = new HttpClient();
     private JsonSerializerOptions Result = new JsonSerializerOptions();
     private JsonSerializerOptions options = new JsonSerializerOptions{ PropertyNameCaseInsensitive = true };
     private static UserViewModel _user;
+
+    // public UserController(IConfiguration config)
+    // {
+    //   _http = new HttpClient() { BaseAddress = new Uri(config["serviceUrls:api"])};
+    // }
 
     [HttpPost]
     public async Task<IActionResult> Login(UserViewModel uvm)
